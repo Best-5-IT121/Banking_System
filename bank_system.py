@@ -1,141 +1,61 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import ttk
 
-root = tk.Tk()
-root.title("Simple Banking System")
-root.geometry("500x500")
+class SimpleBankingApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Simple Bank - PH Peso Edition")
+        self.root.geometry("550x550")
 
+        self.lbl_balance = tk.Label(
+            root,
+            text="Balance: ₱0.00",
+            font=("Arial", 20, "bold"),
+            fg="green"
+        )
+        self.lbl_balance.pack(pady=15)
 
-title_label = tk.Label(root, text="Simple Banking System",
-                       font=("Arial", 18, "bold"))
-title_label.pack(pady=10)
+        frame_input = tk.Frame(root)
+        frame_input.pack(pady=10)
 
-balance_label = tk.Label(root, text="Balance: ₱0.00",
-                         font=("Arial", 14))
-balance_label.pack(pady=10)
+        tk.Label(
+            frame_input,
+            text="Amount: ₱",
+            font=("Arial", 12)
+        ).grid(row=0, column=0)
 
+        self.ent_amount = tk.Entry(
+            frame_input,
+            font=("Arial", 12),
+            width=15
+        )
+        self.ent_amount.grid(row=0, column=1, padx=5)
 
-amount_entry = tk.Entry(root, font=("Arial", 14))
-amount_entry.pack(pady=10)
+        frame_btns = tk.Frame(root)
+        frame_btns.pack(pady=10)
 
+        tk.Button(
+            frame_btns,
+            text="Deposit",
+            width=10
+        ).pack(side=tk.LEFT, padx=5)
 
-deposit_button = tk.Button(root, text="Deposit",
-                           font=("Arial", 12),
-                           width=15)
+        tk.Button(
+            frame_btns,
+            text="Withdraw",
+            width=10
+        ).pack(side=tk.RIGHT, padx=5)
 
-deposit_button.pack(pady=5)
-
-withdraw_button = tk.Button(root, text="Withdraw",
-                            font=("Arial", 12),
-                            width=15)
-
-withdraw_button.pack(pady=5)
-
-history_button = tk.Button(root, text="Show History",
-                           font=("Arial", 12),
-                           width=15)
-
-history_button.pack(pady=5)
-
-import os
-
-BALANCE_FILE = "balance.txt"
-TRANSACTION_FILE = "transactions.txt"
-
-if not os.path.exists(BALANCE_FILE):
-    with open(BALANCE_FILE, "w") as file:
-        file.write("0")
-
-if not os.path.exists(TRANSACTION_FILE):
-    with open(TRANSACTION_FILE, "w") as file:
-        pass
-
-def read_history():
-    with open(TRANSACTION_FILE, "r") as file:
-        return file.read()
-
-def save_transaction(text):
-    with open(TRANSACTION_FILE, "a") as file:
-        file.write(text + "\n")
-
-        BALANCE_FILE = "balance.txt"
-
-def load_balance():
-    try:
-        with open(BALANCE_FILE, "r") as file:
-            return float(file.read())
-    except:
-        return 0.0
-
-def save_balance(balance):
-    with open(BALANCE_FILE, "w") as file:
-        file.write(str(balance))
-
-def update_balance_label():
-    balance_label.config(text=f"Balance: ₱{balance:.2f}")
-
-    from datetime import datetime
-
-def deposit():
-    global balance
-
-    try:
-        amount = float(amount_entry.get())
-
-        if amount <= 0:
-            messagebox.showerror("Error", "Enter a valid amount")
-            return
-
-        balance += amount
-
-        save_balance(balance)
-
-        update_balance_label()
-
-        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        save_transaction(
-            f"{now} | Deposit | +₱{amount:.2f} | Balance: ₱{balance:.2f}"
+        self.table = ttk.Treeview(
+            root,
+            columns=("DateTime", "Action", "Amount", "Balance"),
+            show="headings",
+            height=10
         )
 
-        messagebox.showinfo("Success", "Deposit successful")
+        self.table.heading("DateTime", text="Date & Time")
+        self.table.heading("Action", text="Action")
+        self.table.heading("Amount", text="Amount")
+        self.table.heading("Balance", text="Available Balance")
 
-        amount_entry.delete(0, tk.END)
-
-    except:
-        messagebox.showerror("Error", "Invalid input")
-
-        from datetime import datetime
-
-def withdraw():
-    global balance
-
-    try:
-        amount = float(amount_entry.get())
-
-        if amount <= 0:
-            messagebox.showerror("Error", "Enter a valid amount")
-            return
-
-        if amount > balance:
-            messagebox.showerror("Error", "Insufficient balance")
-            return
-
-        balance -= amount
-
-        save_balance(balance)
-
-        update_balance_label()
-
-        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        save_transaction(
-            f"{now} | Withdraw | -₱{amount:.2f} | Balance: ₱{balance:.2f}"
-        )
-
-        messagebox.showinfo("Success", "Withdrawal successful")
-
-        amount_entry.delete(0, tk.END)
-
-    except:
-        messagebox.showerror("Error", "Invalid input")
+        self.table.pack(fill=tk.BOTH, expand=True, padx=15, pady=15)
