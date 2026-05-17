@@ -82,5 +82,84 @@ def reset_account():
 
         messagebox.showinfo("Reset", "Account has been reset.")
 
+initialize_files()
 
+root = tk.Tk()
+root.title("GUI Banking System")
+root.geometry("500x450")
+root.resizable(False, False)
+
+# TITLE
+title_label = tk.Label(
+    root,
+    text="BANKING SYSTEM",
+    font=("Arial", 22, "bold")
+)
+title_label.pack(pady=20)
+
+# BALANCE LABEL
+balance_label = tk.Label(
+    root,
+    text="Current Balance: ₱0.00",
+    font=("Arial", 16)
+)
+balance_label.pack(pady=10)
+
+update_balance_label()
+
+# BUTTONS
+deposit_button = tk.Button(
+    root,
+    text="Deposit Money",
+    font=("Arial", 14),
+    width=20,
+    command=deposit_money
+)
+deposit_button.pack(pady=10)
+
+withdraw_button = tk.Button(
+    root,
+    text="Withdraw Money",
+    font=("Arial", 14),
+    width=20,
+    command=withdraw_money
+)
+withdraw_button.pack(pady=10)
+
+history_button = tk.Button(
+    root,
+    text="Transaction History",
+    font=("Arial", 14),
+    width=20,
+    command=show_transactions
+)
+history_button.pack(pady=10)
+
+reset_button = tk.Button(
+    root,
+    text="Reset Account",
+    font=("Arial", 14),
+    width=20,
+    command=reset_account
+)
+reset_button.pack(pady=10)
+
+exit_button = tk.Button(
+    root,
+    text="Exit",
+    font=("Arial", 14),
+    width=20,
+    command=root.destroy
+)
+exit_button.pack(pady=10)
+
+# FOOTER
+footer_label = tk.Label(
+    root,
+    text="Tkinter GUI Banking System Project",
+    font=("Arial", 10)
+)
+footer_label.pack(side="bottom", pady=10)
+
+root.mainloop()
 
