@@ -176,3 +176,28 @@ def deposit(balance, entry, balance_label):
     entry.delete(0, "end")
 
     return balance
+
+    from tkinter import messagebox
+
+def withdraw(balance, entry, balance_label):
+    amount = get_clean_amount(entry)
+
+    if amount is None:
+        return balance
+
+    if amount > balance:
+        messagebox.showerror(
+            "Denied",
+            "Insufficient funds!"
+        )
+        return balance
+
+    balance -= amount
+
+    balance_label.config(
+        text=f"Balance: ₱{balance:,.2f}"
+    )
+
+    entry.delete(0, "end")
+
+    return balance
