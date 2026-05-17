@@ -62,6 +62,7 @@ class SimpleBankingApp:
 
         import os
 from tkinter import messagebox
+from datetime import datetime
 
 BALANCE_FILE = "balance.txt"
 HISTORY_FILE = "history.txt"
