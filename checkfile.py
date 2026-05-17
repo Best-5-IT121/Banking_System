@@ -7,3 +7,5 @@ except:
 
     with open("balance.txt", "w") as file:
         file.write(str(balance))
+
+        
