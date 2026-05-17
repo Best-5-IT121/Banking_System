@@ -104,3 +104,38 @@ def deposit():
 
     except:
         messagebox.showerror("Error", "Invalid input")
+
+        from datetime import datetime
+
+def withdraw():
+    global balance
+
+    try:
+        amount = float(amount_entry.get())
+
+        if amount <= 0:
+            messagebox.showerror("Error", "Enter a valid amount")
+            return
+
+        if amount > balance:
+            messagebox.showerror("Error", "Insufficient balance")
+            return
+
+        balance -= amount
+
+        save_balance(balance)
+
+        update_balance_label()
+
+        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        save_transaction(
+            f"{now} | Withdraw | -₱{amount:.2f} | Balance: ₱{balance:.2f}"
+        )
+
+        messagebox.showinfo("Success", "Withdrawal successful")
+
+        amount_entry.delete(0, tk.END)
+
+    except:
+        messagebox.showerror("Error", "Invalid input")
