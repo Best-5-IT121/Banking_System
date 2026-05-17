@@ -92,3 +92,38 @@ def clear_history():
             messagebox.showinfo("Success", "History cleared.")
         except Exception as e:
             messagebox.showerror("Error", str(e))
+
+            from datetime import datetime
+from tkinter import messagebox
+
+def save_data_to_files(balance, action, amount):
+    try:
+        with open("balance.txt", "w", encoding="utf-8") as f:
+            f.write(f"{balance:.2f}")
+
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        with open("history.txt", "a", encoding="utf-8") as f:
+            f.write(
+                f"{timestamp},{action},₱{amount:.2f},₱{balance:.2f}\n"
+            )
+
+    except Exception as e:
+        messagebox.showerror("Error", str(e))
+
+def refresh_table_display(table):
+    for row in table.get_children():
+        table.delete(row)
+
+    try:
+        with open("history.txt", "r", encoding="utf-8") as f:
+            lines = f.readlines()
+
+            for line in reversed(lines):
+                parts = line.strip().split(",")
+
+                if len(parts) == 4:
+                    table.insert("", "end", values=parts)
+
+    except:
+        pass
