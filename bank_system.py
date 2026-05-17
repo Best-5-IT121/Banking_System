@@ -127,3 +127,52 @@ def refresh_table_display(table):
 
     except:
         pass
+
+        from tkinter import messagebox
+
+def get_clean_amount(entry):
+    raw = entry.get().strip()
+
+    if not raw:
+        messagebox.showwarning(
+            "Warning",
+            "Please enter an amount."
+        )
+        return None
+
+    clean = raw.replace("₱", "").replace(",", "").strip()
+
+    try:
+        value = float(clean)
+
+        if value <= 0:
+            messagebox.showwarning(
+                "Warning",
+                "Amount must be greater than zero."
+            )
+            return None
+
+        return value
+
+    except:
+        messagebox.showerror(
+            "Error",
+            "Invalid amount."
+        )
+        return None
+
+def deposit(balance, entry, balance_label):
+    amount = get_clean_amount(entry)
+
+    if amount is None:
+        return balance
+
+    balance += amount
+
+    balance_label.config(
+        text=f"Balance: ₱{balance:,.2f}"
+    )
+
+    entry.delete(0, "end")
+
+    return balance
