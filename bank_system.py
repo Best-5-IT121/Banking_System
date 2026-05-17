@@ -73,3 +73,34 @@ def save_balance(balance):
 
 def update_balance_label():
     balance_label.config(text=f"Balance: ₱{balance:.2f}")
+
+    from datetime import datetime
+
+def deposit():
+    global balance
+
+    try:
+        amount = float(amount_entry.get())
+
+        if amount <= 0:
+            messagebox.showerror("Error", "Enter a valid amount")
+            return
+
+        balance += amount
+
+        save_balance(balance)
+
+        update_balance_label()
+
+        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        save_transaction(
+            f"{now} | Deposit | +₱{amount:.2f} | Balance: ₱{balance:.2f}"
+        )
+
+        messagebox.showinfo("Success", "Deposit successful")
+
+        amount_entry.delete(0, tk.END)
+
+    except:
+        messagebox.showerror("Error", "Invalid input")
