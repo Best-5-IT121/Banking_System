@@ -66,3 +66,21 @@ def show_transactions():
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
+def reset_account():
+    confirm = messagebox.askyesno(
+        "Confirm Reset",
+        "Are you sure you want to reset the account?"
+    )
+
+    if confirm:
+        save_balance(0)
+
+        with open(TRANSACTION_FILE, "w") as f:
+            pass
+
+        update_balance_label()
+
+        messagebox.showinfo("Reset", "Account has been reset.")
+
+
+
