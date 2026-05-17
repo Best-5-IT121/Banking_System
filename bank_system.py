@@ -57,3 +57,19 @@ def read_history():
 def save_transaction(text):
     with open(TRANSACTION_FILE, "a") as file:
         file.write(text + "\n")
+
+        BALANCE_FILE = "balance.txt"
+
+def load_balance():
+    try:
+        with open(BALANCE_FILE, "r") as file:
+            return float(file.read())
+    except:
+        return 0.0
+
+def save_balance(balance):
+    with open(BALANCE_FILE, "w") as file:
+        file.write(str(balance))
+
+def update_balance_label():
+    balance_label.config(text=f"Balance: ₱{balance:.2f}")
