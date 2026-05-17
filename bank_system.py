@@ -59,3 +59,36 @@ class SimpleBankingApp:
         self.table.heading("Balance", text="Available Balance")
 
         self.table.pack(fill=tk.BOTH, expand=True, padx=15, pady=15)
+
+        import os
+from tkinter import messagebox
+
+BALANCE_FILE = "balance.txt"
+HISTORY_FILE = "history.txt"
+
+def load_balance_from_file():
+    try:
+        if os.path.exists(BALANCE_FILE):
+            with open(BALANCE_FILE, "r", encoding="utf-8") as f:
+                return float(f.read().strip())
+    except Exception:
+        pass
+
+    return 0.0
+
+def clear_history():
+    if not os.path.exists(HISTORY_FILE):
+        messagebox.showinfo("Info", "History is already empty.")
+        return
+
+    confirm = messagebox.askyesno(
+        "Confirm",
+        "Delete all transaction history?"
+    )
+
+    if confirm:
+        try:
+            os.remove(HISTORY_FILE)
+            messagebox.showinfo("Success", "History cleared.")
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
