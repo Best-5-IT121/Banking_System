@@ -30,4 +30,31 @@ def deposit():
 
     except:
         messagebox.showerror("Error", "Enter numbers only")
+
+        def withdraw():
+    global balance
+
+    amount = entry.get()
+
+    try:
+        amount = float(amount)
+
+        if amount <= 0:
+            messagebox.showerror("Error", "Invalid amount")
+            return
+
+        if amount > balance:
+            messagebox.showerror("Error", "Insufficient balance")
+            return
+
+        balance -= amount
+
+        update_balance()
+
+        save_transaction(f"Withdrawn: {amount}")
+
+        messagebox.showinfo("Success", "Withdrawal successful")
+
+    except:
+        messagebox.showerror("Error", "Enter numbers only")
         
