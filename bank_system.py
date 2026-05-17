@@ -36,3 +36,24 @@ history_button = tk.Button(root, text="Show History",
                            width=15)
 
 history_button.pack(pady=5)
+
+import os
+
+BALANCE_FILE = "balance.txt"
+TRANSACTION_FILE = "transactions.txt"
+
+if not os.path.exists(BALANCE_FILE):
+    with open(BALANCE_FILE, "w") as file:
+        file.write("0")
+
+if not os.path.exists(TRANSACTION_FILE):
+    with open(TRANSACTION_FILE, "w") as file:
+        pass
+
+def read_history():
+    with open(TRANSACTION_FILE, "r") as file:
+        return file.read()
+
+def save_transaction(text):
+    with open(TRANSACTION_FILE, "a") as file:
+        file.write(text + "\n")
