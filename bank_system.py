@@ -6,7 +6,7 @@ from datetime import datetime
 class SimpleBankingApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Simple Bank - PH Peso Edition")
+        self.root.title("Simple Bank")
         self.root.geometry("550x550")
         
         self.balance_file = "balance.txt"
